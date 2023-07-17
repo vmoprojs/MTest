@@ -19,6 +19,15 @@ Returns the \eqn{p}-value of the columns of \code{X} (pairwisely).
 Note that the matrix \eqn{B_{n_{boot}\times (p+1)}} (which is \code{Bvals} output from \code{MTest} function) allow us to inspect results in detail and make further tests such as boxplots, pariwise Kolmogorov-Smirnov (KS) of the predictors and so on.
 }
 
+
+\value{
+  Returns an object of class \code{pairwiseKStest}.
+  An object of class \code{pairwiseKStest} is a list containing
+  at most the following components:
+  \item{KSpwMatrix}{\eqn{p}-values matrix of pairwise KS testing;}
+  \item{mes}{Character; indicates the alternative hypothesis.}
+  }
+
 \author{Víctor Morales Oñate, \email{victor.morales@uv.cl}, \url{https://sites.google.com/site/moralesonatevictor/},\url{https://www.linkedin.com/in/vmoralesonate/}
 Bolívar Morales Oñate, \email{bmoralesonate@gmail.com}, \url{https://sites.google.com/site/moralesonatevictor/}
 }

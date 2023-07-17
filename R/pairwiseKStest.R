@@ -14,10 +14,10 @@ pairwiseKStest <- function(X,alternative="greater")
       sol[i,j] <- a$p.value
     }
   }
-  if(alternative=="less") print("alternative hypothesis: the CDF of x lies below that of y. Rows are `x` and Columns are `y`")
-  if(alternative=="greater") print("alternative hypothesis: the CDF of x lies above that of y. Rows are `x` and Columns are `y`")
-  if(alternative=="two.sided") print("alternative hypothesis: two-sided")
+  if(alternative=="less") {mes = ("alternative hypothesis: the CDF of x lies below that of y. Rows are `x` and Columns are `y`")}
+  if(alternative=="greater") {mes = ("alternative hypothesis: the CDF of x lies above that of y. Rows are `x` and Columns are `y`")}
+  if(alternative=="two.sided") {mes = ("alternative hypothesis: two-sided")}
   colnames(sol) <- colnames(X)
   rownames(sol) <- colnames(X)
-  return(sol)
+  return(list(KSpwMatrix = sol,mes=mes))
 }
