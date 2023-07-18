@@ -36,7 +36,7 @@ $$H_a:\mu_{R_{j_{boot}}^{2}}<0.90.$$
 
 We seek an achieved significance level (ASL)
 
-$$\text{ASL} = \text{Prob}_{H_0}\{\mu_{R_{j_{boot}}^{2}}\geq 0.90\}$$
+$$ASL = Prob_{H_0}\{\mu_{R_{j_{boot}}^{2}}\geq 0.90\}$$
 
 estimated by 
 
