@@ -24,52 +24,52 @@ In general, there are $p$ auxiliary regressions and the dependent variable is om
 
 ## MTest
 
-Given a regression model, Mtest is based on computing estimates of $R_{g}^{2}$ and $R_{j}^{2}$ from $n_{b}$ bootstrap samples obtained from the dataset, $R_{g_{b}}^{2}$ and $R_{j_{b}}^{2}$ respectively. 
+Given a regression model, Mtest is based on computing estimates of $R_{g}^{2}$ and $R_{j}^{2}$ from $n_{boot}$ bootstrap samples obtained from the dataset, $R_{g_{boot}}^{2}$ and $R_{j_{boot}}^{2}$ respectively. 
 
 Therefore, in the context of MTest, the VIF rule translates into:
 
 $$
-H_0:\mu_{R_{j_{b}}^{2}}\geq 0.90,
+H_0:\mu_{R_{j_{boot}}^{2}}\geq 0.90,
 $$
 and 
 
 $$
-H_a:\mu_{R_{j_{b}}^{2}}<0.90.
+H_a:\mu_{R_{j_{boot}}^{2}}<0.90.
 $$
 
 We seek an achieved significance level (ASL)
 
 $$
-\text{ASL} = \text{Prob}_{H_0}\{\mu_{R_{j_{b}}^{2}}\geq 0.90\}
+\text{ASL} = \text{Prob}_{H_0}\{\mu_{R_{j_{boot}}^{2}}\geq 0.90\}
 $$
 
 estimated by 
 
 $$
-\widehat{\text{ASL}}_{n_{b}} = \text{Card}(\mu_{R_{j_{b}}^{2}}\geq 0.90) /{n_{b}}
+\widehat{\text{ASL}}_{n_{boot}} = \#\{\mu_{R_{j_{boot}}^{2}}\geq 0.90\}/{n_{boot}}
 $$
 
 In a similar manner, the  Klein's rule translates into:
 
 $$
-H_0:\mu_{R_{j_{b}}^{2}}\geq \mu_{R_{g_{b}}^{2}},
+H_0:\mu_{R_{j_{boot}}^{2}}\geq \mu_{R_{g_{boot}}^{2}},
 $$
 and 
 
 $$
-H_a:\mu_{R_{j_{b}}^{2}}<\mu_{R_{g_{b}}^{2}}.
+H_a:\mu_{R_{j_{boot}}^{2}}<\mu_{R_{g_{boot}}^{2}}.
 $$
 
 We seek an achieved significance level
 
 $$
-\text{ASL} = \text{Prob}_{H_0}\{\mu_{R_{j_{b}}^{2}}\geq \mu_{R_{g_{b}}^{2}}\}
+\text{ASL} = \text{Prob}_{H_0}\{\mu_{R_{j_{boot}}^{2}}\geq \mu_{R_{g_{boot}}^{2}}\}
 $$
 
 estimated by 
 
 $$
-\widehat{\text{ASL}}_{n_{b}} = \text{Card}(\mu_{R_{j_{b}}^{2}}\geq\mu_{R_{g_{b}}^{2}})/{n_{b}}.
+\widehat{\text{ASL}}_{n_{boot}} = \#\{\mu_{R_{j_{boot}}^{2}}\geq\mu_{R_{g_{boot}}^{2}}\}/{n_{boot}}.
 $$
 
 It should be noted that this set up let us formulate VIF and Klein's rules in terms of statistical hypothesis testing. 
@@ -80,12 +80,12 @@ It should be noted that this set up let us formulate VIF and Klein's rules in te
 ## MTest: the algorithm
 
 
-$R_{g_{b}}^{2}$ and $R_{j_{b}}^{2}$ are the distributions of $R_{g}^{2}$ and $R_{j}^{2}$ induced by applying the bootstrap procedure to the dataset. Achieved significance level is computed for the VIF and Klein's rule. In the following we describe the procedure step by step:
+$R_{g_{boot}}^{2}$ and $R_{j_{boot}}^{2}$ are the distributions of $R_{g}^{2}$ and $R_{j}^{2}$ induced by applying the bootstrap procedure to the dataset. Achieved significance level is computed for the VIF and Klein's rule. In the following we describe the procedure step by step:
 
 
-- Create $n_{b}$ samples from original data with replacement of a given size ($n_{sam}$). 
-- Compute $R_{g_{b}}^{2}$ and $R_{j_{b}}^{2}$ from each $n_{b}$ samples. This outputs a $B_{n_{b}\times (p+1)}$ matrix.
-- Compute $\widehat{\text{ASL}}_{n_{b}}$ for the VIF and Klein's rule.
+- Create $n_{boot}$ samples from original data with replacement of a given size ($n_{sam}$). 
+- Compute $R_{g_{boot}}^{2}$ and $R_{j_{boot}}^{2}$ from each $n_{boot}$ samples. This outputs a $B_{n_{boot}\times (p+1)}$ matrix.
+- Compute $\widehat{\text{ASL}}_{n_{boot}}$ for the VIF and Klein's rule.
 
 
-Note that the matrix $B_{n_{b}\times (p+1)}$ allow us to inspect results in detail and make further tests such as boxplots, pariwise Kolmogorov-Smirnov (KS) of the predictors and so on.
+Note that the matrix $B_{n_{boot}\times (p+1)}$ allow us to inspect results in detail and make further tests such as boxplots, pariwise Kolmogorov-Smirnov (KS) of the predictors and so on.
