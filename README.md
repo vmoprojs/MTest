@@ -32,42 +32,42 @@ determination of the *j*th auxiliary regression.
 
 Given a regression model, Mtest is based on computing estimates of
 *R*<sub>*g*</sub><sup>2</sup> and *R*<sub>*j*</sub><sup>2</sup> from
-*n*<sub>*b**o**o**t*</sub> bootstrap samples obtained from the dataset,
-*R*<sub>*g*<sub>*b**o**o**t*</sub></sub><sup>2</sup> and
-*R*<sub>*j*<sub>*b**o**o**t*</sub></sub><sup>2</sup> respectively.
+*n*<sub>*b*</sub> bootstrap samples obtained from the dataset,
+*R*<sub>*g*<sub>*b*</sub></sub><sup>2</sup> and
+*R*<sub>*j*<sub>*b*</sub></sub><sup>2</sup> respectively.
 
 Therefore, in the context of MTest, the VIF rule translates into:
 
-*H*<sub>0</sub> : *μ*<sub>*R*<sub>*j*<sub>*b**o**o**t*</sub></sub><sup>2</sup></sub> ≥ 0.90,
+*H*<sub>0</sub> : *μ*<sub>*R*<sub>*j*<sub>*b*</sub></sub><sup>2</sup></sub> ≥ 0.90,
 and
 
-*H*<sub>*a*</sub> : *μ*<sub>*R*<sub>*j*<sub>*b**o**o**t*</sub></sub><sup>2</sup></sub> &lt; 0.90.
+*H*<sub>*a*</sub> : *μ*<sub>*R*<sub>*j*<sub>*b*</sub></sub><sup>2</sup></sub> &lt; 0.90.
 
 We seek an achieved significance level (ASL)
 
-ASL = Prob<sub>*H*<sub>0</sub></sub>{*μ*<sub>*R*<sub>*j*<sub>*b**o**o**t*</sub></sub><sup>2</sup></sub> ≥ 0.90}
+ASL = Prob<sub>*H*<sub>0</sub></sub>{*μ*<sub>*R*<sub>*j*<sub>*b*</sub></sub><sup>2</sup></sub> ≥ 0.90}
 
 estimated by
 
 $$
-\widehat{\text{ASL}}\_{n\_{boot}} = \\\\\mu\_{R\_{j\_{boot}}^{2}}\geq 0.90\\/{n\_{boot}}
+\widehat{\text{ASL}}\_{n\_{b}} = \\(\mu\_{R\_{j\_{b}}^{2}}\geq 0.90) /{n\_{b}}
 $$
 
 In a similar manner, the Klein’s rule translates into:
 
-*H*<sub>0</sub> : *μ*<sub>*R*<sub>*j*<sub>*b**o**o**t*</sub></sub><sup>2</sup></sub> ≥ *μ*<sub>*R*<sub>*g*<sub>*b**o**o**t*</sub></sub><sup>2</sup></sub>,
+*H*<sub>0</sub> : *μ*<sub>*R*<sub>*j*<sub>*b*</sub></sub><sup>2</sup></sub> ≥ *μ*<sub>*R*<sub>*g*<sub>*b*</sub></sub><sup>2</sup></sub>,
 and
 
-*H*<sub>*a*</sub> : *μ*<sub>*R*<sub>*j*<sub>*b**o**o**t*</sub></sub><sup>2</sup></sub> &lt; *μ*<sub>*R*<sub>*g*<sub>*b**o**o**t*</sub></sub><sup>2</sup></sub>.
+*H*<sub>*a*</sub> : *μ*<sub>*R*<sub>*j*<sub>*b*</sub></sub><sup>2</sup></sub> &lt; *μ*<sub>*R*<sub>*g*<sub>*b*</sub></sub><sup>2</sup></sub>.
 
 We seek an achieved significance level
 
-ASL = Prob<sub>*H*<sub>0</sub></sub>{*μ*<sub>*R*<sub>*j*<sub>*b**o**o**t*</sub></sub><sup>2</sup></sub> ≥ *μ*<sub>*R*<sub>*g*<sub>*b**o**o**t*</sub></sub><sup>2</sup></sub>}
+ASL = Prob<sub>*H*<sub>0</sub></sub>{*μ*<sub>*R*<sub>*j*<sub>*b*</sub></sub><sup>2</sup></sub> ≥ *μ*<sub>*R*<sub>*g*<sub>*b*</sub></sub><sup>2</sup></sub>}
 
 estimated by
 
 $$
-\widehat{\text{ASL}}\_{n\_{boot}} = \\\\\mu\_{R\_{j\_{boot}}^{2}}\geq\mu\_{R\_{g\_{boot}}^{2}}\\/{n\_{boot}}.
+\widehat{\text{ASL}}\_{n\_{b}} = \\\\\mu\_{R\_{j\_{b}}^{2}}\geq\mu\_{R\_{g\_{b}}^{2}}\\/{n\_{b}}.
 $$
 
 It should be noted that this set up let us formulate VIF and Klein’s
@@ -75,23 +75,22 @@ rules in terms of statistical hypothesis testing.
 
 ## MTest: the algorithm
 
-*R*<sub>*g*<sub>*b**o**o**t*</sub></sub><sup>2</sup> and
-*R*<sub>*j*<sub>*b**o**o**t*</sub></sub><sup>2</sup> are the
-distributions of *R*<sub>*g*</sub><sup>2</sup> and
-*R*<sub>*j*</sub><sup>2</sup> induced by applying the bootstrap
-procedure to the dataset. Achieved significance level is computed for
-the VIF and Klein’s rule. In the following we describe the procedure
-step by step:
+*R*<sub>*g*<sub>*b*</sub></sub><sup>2</sup> and
+*R*<sub>*j*<sub>*b*</sub></sub><sup>2</sup> are the distributions of
+*R*<sub>*g*</sub><sup>2</sup> and *R*<sub>*j*</sub><sup>2</sup> induced
+by applying the bootstrap procedure to the dataset. Achieved
+significance level is computed for the VIF and Klein’s rule. In the
+following we describe the procedure step by step:
 
--   Create *n*<sub>*b**o**o**t*</sub> samples from original data with
-    replacement of a given size (*n*<sub>*s**a**m*</sub>).
--   Compute *R*<sub>*g*<sub>*b**o**o**t*</sub></sub><sup>2</sup> and
-    *R*<sub>*j*<sub>*b**o**o**t*</sub></sub><sup>2</sup> from each
-    *n*<sub>*b**o**o**t*</sub> samples. This outputs a
-    *B*<sub>*n*<sub>*b**o**o**t*</sub> × (*p*+1)</sub> matrix.
--   Compute $\widehat{\text{ASL}}\_{n\_{boot}}$ for the VIF and Klein’s
+-   Create *n*<sub>*b*</sub> samples from original data with replacement
+    of a given size (*n*<sub>*s**a**m*</sub>).
+-   Compute *R*<sub>*g*<sub>*b*</sub></sub><sup>2</sup> and
+    *R*<sub>*j*<sub>*b*</sub></sub><sup>2</sup> from each
+    *n*<sub>*b*</sub> samples. This outputs a
+    *B*<sub>*n*<sub>*b*</sub> × (*p*+1)</sub> matrix.
+-   Compute $\widehat{\text{ASL}}\_{n\_{b}}$ for the VIF and Klein’s
     rule.
 
-Note that the matrix *B*<sub>*n*<sub>*b**o**o**t*</sub> × (*p*+1)</sub>
-allow us to inspect results in detail and make further tests such as
-boxplots, pariwise Kolmogorov-Smirnov (KS) of the predictors and so on.
+Note that the matrix *B*<sub>*n*<sub>*b*</sub> × (*p*+1)</sub> allow us
+to inspect results in detail and make further tests such as boxplots,
+pariwise Kolmogorov-Smirnov (KS) of the predictors and so on.
