@@ -40,7 +40,7 @@ $$ASL = Prob_{H_0}\{\mu_{R_{j_{boot}}^{2}}\geq 0.90\}$$
 
 estimated by 
 
-$$\widehat{\text{ASL}}_{n_{boot}} = \#\{\mu_{R_{j_{boot}}^{2}}\geq 0.90\}/{n_{boot}}$$
+$$\widehat{ASL}_{n_{boot}} = \#\{\mu_{R_{j_{boot}}^{2}}\geq 0.90\}/{n_{boot}}$$
 
 In a similar manner, the  Klein's rule translates into:
 
@@ -54,11 +54,11 @@ $$
 
 We seek an achieved significance level
 
-$$\text{ASL} = \text{Prob}_{H_0}\{\mu_{R_{j_{boot}}^{2}}\geq \mu_{R_{g_{boot}}^{2}}\}$$
+$$ASL = Prob_{H_0}\{\mu_{R_{j_{boot}}^{2}}\geq \mu_{R_{g_{boot}}^{2}}\}$$
 
 estimated by 
 
-$$\widehat{\text{ASL}}_{n_{boot}} = \#\{\mu_{R_{j_{boot}}^{2}}\geq\mu_{R_{g_{boot}}^{2}}\}/{n_{boot}}.$$
+$$\widehat{ASL}_{n_{boot}} = \#\{\mu_{R_{j_{boot}}^{2}}\geq\mu_{R_{g_{boot}}^{2}}\}/{n_{boot}}.$$
 
 It should be noted that this set up let us formulate VIF and Klein's rules in terms of statistical hypothesis testing. 
 
@@ -73,7 +73,7 @@ $R_{g_{boot}}^{2}$ and $R_{j_{boot}}^{2}$ are the distributions of $R_{g}^{2}$ a
 
 - Create $n_{boot}$ samples from original data with replacement of a given size ($n_{sam}$). 
 - Compute $R_{g_{boot}}^{2}$ and $R_{j_{boot}}^{2}$ from each $n_{boot}$ samples. This outputs a $B_{n_{boot}\times (p+1)}$ matrix.
-- Compute $$\widehat{\text{ASL}}_{n_{boot}}$$ for the VIF and Klein's rule.
+- Compute $$\widehat{ASL}_{n_{boot}}$$ for the VIF and Klein's rule.
 
 
 Note that the matrix $B_{n_{boot}\times (p+1)}$ allow us to inspect results in detail and make further tests such as boxplots, pariwise Kolmogorov-Smirnov (KS) of the predictors and so on.
