@@ -1,19 +1,6 @@
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  TeX: { 
-      equationNumbers: {
-      autoNumber: "all",
-            formatNumber: function (n) {return '1.'+n}
-      } 
-  }
-});
-</script>
-
-## About
-
 **MTest**: A Procedure for Multicollinearity Testing using Bootstrap.
 
-## Features
+## About
 
 Functions for detecting multicollinearity. This test gives statistical
 support to two of the most famous methods for detecting
@@ -23,20 +10,23 @@ Morales-Oñate and Morales-Oñate (2023) <doi:10.33333/rp.vol51n2.05>
 
 Consider the regression model
 
+*Y*<sub>*i*</sub> = *β*<sub>0</sub>*X*<sub>0*i*</sub> + *β*<sub>1</sub>*X*<sub>1*i*</sub> + ⋯ + *β*<sub>*p*</sub>*X*<sub>*p**i*</sub> + *u*<sub>*i*</sub>
+
 where *i* = 1, …, *n*, *X*<sub>*j*, *i*</sub> are the predictors with
 *j* = 1, …, *p*, *X*<sub>0</sub> = 1 for all *i* and *u*<sub>*i*</sub>
 is the gaussian error term.
 
 In order to describe Klein’s rule and VIF methods, we need to define
-associated to model . An example of an auxiliary regressions is:
+*auxiliary regressions* associated to the abobe model (global). An
+example of an auxiliary regressions is:
 
 *X*<sub>2*i*</sub> = *γ*<sub>1</sub>*X*<sub>1*i*</sub> + *γ*<sub>3</sub>*X*<sub>3*i*</sub> + ⋯ + *γ*<sub>*p*</sub>*X*<sub>*p**i*</sub> + *u*<sub>*i*</sub>.
 
 In general, there are *p* auxiliary regressions and the dependent
 variable is omitted in each auxiliary regression. Let
-*R*<sub>*g*</sub><sup>2</sup> be the coefficient of determination of and
-*R*<sub>*j*</sub><sup>2</sup> the *j*th coefficient of determination of
-the *j*th auxiliary regression.
+*R*<sub>*g*</sub><sup>2</sup> be the coefficient of determination of the
+global model and *R*<sub>*j*</sub><sup>2</sup> the *j*th coefficient of
+determination of the *j*th auxiliary regression.
 
 ## MTest
 
@@ -60,7 +50,7 @@ ASL = Prob<sub>*H*<sub>0</sub></sub>{*μ*<sub>*R*<sub>*j*<sub>*b**o**o**t*</
 estimated by
 
 $$
-\widehat{\text{ASL}}\_{n\_{boot}} = \\\\\mu\_{R\_{j\_{boot}}^{2}}\geq0.90\\/{n\_{boot}}
+\widehat{\text{ASL}}\_{n\_{boot}} = \\\\\mu\_{R\_{j\_{boot}}^{2}}\geq 0.90\\/{n\_{boot}}
 $$
 
 In a similar manner, the Klein’s rule translates into:
