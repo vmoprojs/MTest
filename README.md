@@ -40,7 +40,7 @@ $$ASL = Prob_{H_0}\{\mu_{R_{j_{boot}}^{2}}\geq 0.90\}$$
 
 estimated by 
 
-$$ASL_{n_{boot}} = #(\mu_{R_{j_{boot}}^{2}}\geq 0.90)/n_{boot}$$
+$$ASL_{n_{boot}} = \#(\mu_{R_{j_{boot}}^{2}}\geq 0.90)/n_{boot}$$
 
 In a similar manner, the  Klein's rule translates into:
 
