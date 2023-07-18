@@ -58,7 +58,7 @@ $$ASL = Prob_{H_0}\{\mu_{R_{j_{boot}}^{2}}\geq \mu_{R_{g_{boot}}^{2}}\}$$
 
 estimated by 
 
-$$\hat{ASL}_{n_{boot}} =Card(\mu_{R_{j_{boot}}^{2}}\geq\mu_{R_{g_{boot}}^{2}})/{n_{boot}}.$$
+$$ASL_{n_{boot}} =Card(\mu_{R_{j_{boot}}^{2}}\geq\mu_{R_{g_{boot}}^{2}})/{n_{boot}}.$$
 
 It should be noted that this set up let us formulate VIF and Klein's rules in terms of statistical hypothesis testing. 
 
