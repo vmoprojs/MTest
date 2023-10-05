@@ -1,2 +1,3 @@
-exportPattern("^[[:alpha:]]+")
+export(MTest,pairwiseKStest)
 importFrom("stats", "formula", "ks.test", "lm", "terms")
+S3method(print,MTest)

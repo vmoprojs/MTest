@@ -51,6 +51,9 @@ In general, there are \eqn{p} auxiliary regressions and the dependent variable i
   \item{pval_vif}{p values for vif test;}
   \item{pval_klein}{p values for klein test;}
   \item{Bvals}{A \eqn{nboot \times (p+1)} matrix where rows are the number of bootstap samples and the columns are  \eqn{R_{g_{boot}}^{2}} and \eqn{R_{j_{boot}}^{2}} which are estimates of estimates of \eqn{R_{g}^{2}} and \eqn{R_{j}^{2}}, see Section \bold{Details}}
+  \item{vif.tot}{Observed VIF values;}
+  \item{R.tot}{Observed \eqn{R_{g}^{2}} and \eqn{R_{j}^{2}} values;}
+  \item{nsam}{sample size used in bootstrap procedure.}
   }
 
 \author{Víctor Morales Oñate, \email{victor.morales@uv.cl}, \url{https://sites.google.com/site/moralesonatevictor/},\url{https://www.linkedin.com/in/vmoralesonate/}
@@ -70,5 +73,6 @@ boot.sol <- MTest(m1,trace=FALSE,seed = 1,nboot = 50)
 boot.sol$pval_vif
 boot.sol$pval_klein
 head(boot.sol$Bvals)
+print(boot.sol)
 }
 \keyword{Multicollinearity}

@@ -25,7 +25,8 @@ Note that the matrix \eqn{B_{n_{boot}\times (p+1)}} (which is \code{Bvals} outpu
   An object of class \code{pairwiseKStest} is a list containing
   at most the following components:
   \item{KSpwMatrix}{\eqn{p}-values matrix of pairwise KS testing;}
-  \item{mes}{Character; indicates the alternative hypothesis.}
+  \item{alternative}{Character; indicates the alternative hypothesis.}
+  \item{Suggestion}{Character; indicates row sums (or col sums) of \code{KSpwMatrix} suggesting the removal order in case that is the strategy for dealing with multicollinearity.}
   }
 
 \author{Víctor Morales Oñate, \email{victor.morales@uv.cl}, \url{https://sites.google.com/site/moralesonatevictor/},\url{https://www.linkedin.com/in/vmoralesonate/}
