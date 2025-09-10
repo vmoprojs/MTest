@@ -70,8 +70,10 @@ MTest <- function (object, nboot = 100, nsam = NULL, trace = FALSE, seed = NULL,
                                          sep = ""))
   rownames(sol.rsq) <- 1:nrow(sol.rsq)
   
-  return(list(Bvals = sol.rsq, pval_vif = pval_vif, pval_klein = pval_klein,
+  MTest <- (list(Bvals = sol.rsq, pval_vif = pval_vif, pval_klein = pval_klein,
               vif.tot = vif.global, R.tot = R.aux.global,nsam = nsam))
+  
+  structure(c(MTest, call = call), class = c("MTest"))
 }
 
 
@@ -116,4 +118,51 @@ print.MTest <- function(x, digits = max(3, getOption("digits") - 3), ...)
   
   cat('\n##################################################################\n')
   invisible(x)
+}
+
+
+plot.MTest <- function(x,type = 1,plotly = FALSE,...)
+{
+  if(!inherits(x,"MTest"))       stop("Enter an object obtained from the function MTest\n")
+  ind <- values <- NULL
+  boot.sol <- x
+  boot.sol <- stack(data.frame(boot.sol$Bvals))
+  boot.global <- boot.sol[boot.sol["ind"]=="global",]
+  var = 
+    boot.aux <- boot.sol[boot.sol["ind"]!="global",]
+
+    # ****** ECDF
+  g_ecdf_global <- ggplot2::ggplot(boot.global, 
+                                   ggplot2::aes(values,color = ind)) + 
+    ggplot2::stat_ecdf(geom = "step")
+  g_ecdf_aux <- ggplot2::ggplot(boot.aux, 
+                                ggplot2::aes(values,color = ind)) + 
+    ggplot2::stat_ecdf(geom = "step")
+  g_ecdf_sol <- ggplot2::ggplot(boot.sol, 
+                                ggplot2::aes(values,color = ind)) + 
+    ggplot2::stat_ecdf(geom = "step")
+  
+  # ******* Density
+  g_dens_sol <- ggplot2::ggplot(boot.sol, 
+                                ggplot2::aes(x=values,color = ind)) + 
+    ggplot2::geom_density()
+  
+  if(type == 2 & plotly == FALSE)
+  {
+    print(g_ecdf_sol)
+  }
+  if(type == 1 & plotly == FALSE)
+  {
+    print(g_dens_sol)
+  }
+  if(plotly==TRUE & type == 1)
+  {
+    g_dens_sol <- plotly::ggplotly(g_dens_sol)
+    print(g_dens_sol)
+  }
+  if(plotly==TRUE & type == 2)
+  {
+    g_ecdf_sol <- plotly::ggplotly(g_ecdf_sol)
+    print(g_ecdf_sol)
+  }
 }
