@@ -24,7 +24,7 @@ Given a fitted linear model, `MTest`:
    - **VIF rule (threshold on $R^2_j$)**:
      
      $$
-     ASL_{VIF}(j) = Pr(R^2_j > c), \quad c = valorvif.
+     ASL\ldot VIF(j) = Pr(R^2_j > c), \quad c = valor\ldotvif.
      $$
      
      Example: `valor_vif = 0.90` implies a VIF cutoff of $1 / (1 - 0.90) = 10$.
