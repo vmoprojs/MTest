@@ -98,7 +98,7 @@ print(out)        # compact console summary (print.MTest)
 
 - `Bvals` — matrix `nboot x (p+1)` with bootstrap $R^2$: first column `"global"` for $R^2_g$, then one column per predictor for $R^2_j$.
 - `VIFvals` — matrix `nboot x p` with bootstrap VIF per predictor.
-- `pval_vif` — named vector with $\mathbb{P}(R^2_j > \texttt{valor\_vif})$.
+- `pval_vif` — named vector with $\mathbb{P}(R^2_j > \text{valor\_vif})$.
 - `pval_klein` — named vector with $\mathbb{P}(R^2_g < R^2_j)$.
 - `vif.tot`, `R.tot` — observed (non-bootstrap) VIF and $R^2$.
 - `nsam`, `nboot` — bootstrap sample size and iterations used.
