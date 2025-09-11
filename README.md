@@ -27,7 +27,7 @@ $$
 \mathrm{ASL}_{\mathrm{VIF}}(j) = \mathbb{P}\big(R^2_j > c\big)
 $$
      
-     Example: `valor_vif = 0.90` implies a VIF cutoff of $1 / (1 - 0.90) = 10$.
+Example: `valor_vif = 0.90` implies a VIF cutoff of $1 / (1 - 0.90) = 10$.
 
    - **Klein's rule**:
      
