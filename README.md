@@ -22,18 +22,13 @@ Given a fitted linear model, `MTest`:
    This is robust to `log()`, `I()`, interactions, factors, `poly()`, etc.  
 3. Returns bootstrap distributions and **ASL** (bootstrap proportions) for:
    - **VIF rule (threshold on $R^2_j$)**:
-
      $$
-     \text{ASL}_{\text{VIF}}(j) = \Pr\big(R^2_j > c\big), \quad c = \text{valor\_vif}.
+     \operatorname{ASL}_{\text{VIF}}(j) = \Pr\big(R^2_j > c\big), \quad c = \texttt{valor\_vif}.
      $$
-
-     
      Example: `valor_vif = 0.90` implies a VIF cutoff of $1 / (1 - 0.90) = 10$.
-
    - **Klein's rule**:
-
      $$
-     \text{ASL}_{\text{Klein}}(j) = \Pr\big(R^2_g < R^2_j\big).
+     \operatorname{ASL}_{\text{Klein}}(j) = \Pr\big(R^2_g < R^2_j\big).
      $$
 
 These ASLs are simple **bootstrap proportions** of the corresponding events (no additional parametric assumptions).
@@ -43,13 +38,11 @@ These ASLs are simple **bootstrap proportions** of the corresponding events (no 
 ## Model context
 
 Linear regression model:
-
 $$
 Y_i = \beta_0 + \beta_1 X_{1i} + \cdots + \beta_p X_{pi} + u_i, \quad i=1,\ldots,n.
 $$
 
 Auxiliary regressions (one per predictor):
-
 $$
 X_{ji} = \gamma_0 + \sum_{k \ne j} \gamma_k X_{ki} + e_{ji}, \quad j=1,\ldots,p.
 $$
@@ -99,7 +92,7 @@ print(out)        # compact console summary (print.MTest)
 
 - `Bvals` — matrix `nboot x (p+1)` with bootstrap $R^2$: first column `"global"` for $R^2_g$, then one column per predictor for $R^2_j$.
 - `VIFvals` — matrix `nboot x p` with bootstrap VIF per predictor.
-- `pval_vif` — named vector with $\Pr(R^2_j >\text{valor\_vif})$.
+- `pval_vif` — named vector with $\Pr(R^2_j > \texttt{valor\_vif})$.
 - `pval_klein` — named vector with $\Pr(R^2_g < R^2_j)$.
 - `vif.tot`, `R.tot` — observed (non-bootstrap) VIF and $R^2$.
 - `nsam`, `nboot` — bootstrap sample size and iterations used.
@@ -111,7 +104,7 @@ print(out)        # compact console summary (print.MTest)
 ## Interpreting ASL
 
 - **High `pval_klein[j]`** → $R^2_j$ often exceeds $R^2_g$ (Klein's rule frequently triggered).  
-- **High `pval_vif[j]`** → $R^2_j$ often exceeds `valor_vif` (equivalently, $\mathrm{VIF}_j$ exceeds the implied cutoff $1/(1-c)$).
+- **High `pval_vif[j]`** → $R^2_j$ often exceeds `valor_vif` (equivalently, $\mathrm{VIF}_j$ exceeds the implied cutoff $1 / (1 - c)$).
 
 Do not rely on a single rule: inspect both and consider the modeling context.
 
@@ -165,7 +158,7 @@ pairwiseKStest(X,
                exact = NULL)
 ```
 
-- `valor_vif` is a **threshold on $R^2_j$**. The implied VIF cutoff is $1 / (1 -$ $\texttt{valor\_vif})$ (e.g., `0.90` ↔ `10`).  
+- `valor_vif` is a **threshold on $R^2_j$**. The implied VIF cutoff is $1 / (1 - \texttt{valor\_vif})$ (e.g., `0.90` ↔ `10`).  
 - `pairwiseKStest()` expects a numeric matrix/data frame; for `Bvals` you typically pass `Bvals[, -1]` to exclude `"global"`.
 
 ---
