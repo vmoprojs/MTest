@@ -24,7 +24,7 @@ Given a fitted linear model, `MTest`:
    - **VIF rule (threshold on $R^2_j$)**:
      
      $$
-     ASL_{VIF}(j) = Pr(R^2_j > c), \quad c = valor_vif.
+     ASL_{VIF}(j) = Pr(R^2_j > c), \quad c = valorvif.
      $$
      
      Example: `valor_vif = 0.90` implies a VIF cutoff of $1 / (1 - 0.90) = 10$.
@@ -42,11 +42,13 @@ These ASLs are simple **bootstrap proportions** of the corresponding events (no 
 ## Model context
 
 Linear regression model:
+
 $$
 Y_i = \beta_0 + \beta_1 X_{1i} + \cdots + \beta_p X_{pi} + u_i, \quad i=1,\ldots,n.
 $$
 
 Auxiliary regressions (one per predictor):
+
 $$
 X_{ji} = \gamma_0 + \sum_{k \ne j} \gamma_k X_{ki} + e_{ji}, \quad j=1,\ldots,p.
 $$
