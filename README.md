@@ -1,4 +1,4 @@
-# MTest — Bootstrap-based Multicollinearity Diagnostic (Klein & VIF)
+# MTest: A Procedure for Multicollinearity Testing using Bootstrap
 
 Functions to **detect and quantify multicollinearity** via a **nonparametric pairs bootstrap**.
 
