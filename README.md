@@ -22,11 +22,15 @@ Given a fitted linear model, `MTest`:
    This is robust to `log()`, `I()`, interactions, factors, `poly()`, etc.  
 3. Returns bootstrap distributions and **ASL** (bootstrap proportions) for:
    - **VIF rule (threshold on $R^2_j$)**:
+     
      $$
      ASL_{VIF}(j) = \Pr\big(R^2_j > c\big), \quad c = \texttt{valor\_vif}.
      $$
+     
      Example: `valor_vif = 0.90` implies a VIF cutoff of $1 / (1 - 0.90) = 10$.
+     
    - **Klein's rule**:
+     
      $$
      \operatorname{ASL}_{\text{Klein}}(j) = \Pr\big(R^2_g < R^2_j\big).
      $$
