@@ -31,9 +31,9 @@ $$
 
    - **Klein's rule**:
      
-     $$
-     \operatorname{ASL}_{\text{Klein}}(j) = \Pr\big(R^2_g < R^2_j\big).
-     $$
+$$
+\operatorname{ASL}_{\text{Klein}}(j) = \Pr\big(R^2_g < R^2_j\big).
+$$
 
 These ASLs are simple **bootstrap proportions** of the corresponding events (no additional parametric assumptions).
 
