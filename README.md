@@ -110,7 +110,7 @@ print(out)        # compact console summary (print.MTest)
 ## Interpreting ASL
 
 - **High `pval_klein[j]`** → $R^2_j$ often exceeds $R^2_g$ (Klein's rule frequently triggered).  
-- **High `pval_vif[j]`** → $R^2_j$ often exceeds `valor_vif` (equivalently, $\mathrm{VIF}_j$ exceeds the implied cutoff $1/(1-c)$).
+- **High `pval_vif[j]`** → $R^2_j$ often exceeds `valor_vif`. Equivalently, $\mathrm{VIF}_j$ exceeds the implied cutoff $1/(1-c)$.
 
 Do not rely on a single rule: inspect both and consider the modeling context.
 
