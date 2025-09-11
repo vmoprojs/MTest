@@ -23,9 +23,7 @@ Given a fitted linear model, `MTest`:
 3. Returns bootstrap distributions and **ASL** (bootstrap proportions) for:
    - **VIF rule (threshold on $R^2_j$)**:
      
-     $$
-     ASL\ldot VIF(j) = Pr(R^2_j > c), \quad c = valor\ldot vif
-     $$
+     $ASL\ldot VIF(j) = Pr(R^2_j > c), \quad c = valor\ldot vif$
      
      Example: `valor_vif = 0.90` implies a VIF cutoff of $1 / (1 - 0.90) = 10$.
 
