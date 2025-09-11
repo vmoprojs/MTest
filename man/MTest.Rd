@@ -1,78 +1,116 @@
 \name{MTest}
 \alias{MTest}
-\title{MTest}
+\title{Bootstrap-based test for multicollinearity (Klein and VIF)}
 \usage{
-MTest(object, nboot = 100,
-                  nsam = NULL,trace = FALSE,seed = NULL,
-                  valor_vif = 0.9)
+MTest(object, nboot = 100, nsam = NULL, trace = FALSE, seed = NULL,
+      valor_vif = 0.9)
 }
 \description{
-
-MTest is a nonparametric test based on bootstrap for detecting multicollinearity. This test gives statistical support to two of the most famous methods for detecting multicollinearity in applied work: Klein’s rule and Variance Inflation Factor (VIF for essential multicollinearity). 
+\code{MTest} implements a nonparametric (pairs) bootstrap to assess
+multicollinearity by providing achieved significance levels (ASL)
+for two widely used diagnostics: Klein's rule and the Variance Inflation
+Factor (VIF). It returns bootstrap distributions of the global \eqn{R^2}
+and the auxiliary \eqn{R_j^2} (from regressions of each predictor on the remaining
+predictors), along with p-values for both rules.
 }
 
-
 \arguments{
-  \item{object}{an object representing a model of an appropriate class (mainly "lm"). This is used as the model in MTest.}
-  \item{nboot}{Numeric; number of bootstrap iterations to obtain the probability distribution of R squared (global and auxiliar).}
-  \item{nsam}{Numeric; sample size for bootstrap samples.}
-  \item{trace}{Logical; prints iteration process.}
-  \item{seed}{Numeric; seed value for the bootstrap in nboot parameter.}
-  \item{valor_vif}{Numeric; value to be compared in kleins rule.}
+  \item{object}{A fitted model, typically of class \code{"lm"}.
+  The function uses its \code{model.frame} and \code{model.matrix} as the fixed design for resampling.}
+  \item{nboot}{Integer. Number of bootstrap iterations (rows resampled with replacement).}
+  \item{nsam}{Integer. Bootstrap sample size per iteration. Defaults to the original number of rows.}
+  \item{trace}{Logical. If \code{TRUE}, shows a progress bar.}
+  \item{seed}{Integer. Optional RNG seed for reproducibility.}
+  \item{valor_vif}{Numeric in \eqn{[0,1)}. Threshold applied to \eqn{R_j^2} for the VIF rule:
+  the ASL is \eqn{P(R_j^2 > c)}, where \eqn{c =} \code{valor_vif}. Since \eqn{\mathrm{VIF}_j = 1/(1-R_j^2)},
+  \code{valor_vif = 0.9} corresponds roughly to \code{VIF >= 10}.}
 }
 
 \details{
-MTest generates a bootstrap distribution for the coefficient of determination which lets the researcher assess multicollinearity by setting a statistical significance \eqn{\alpha}, or more precisely, an achieved significance level (ASL) for a given threshold.
+\strong{Model.}
+Consider the linear regression model
+\deqn{Y_i = \beta_0 + \beta_1 X_{1i} + \cdots + \beta_p X_{pi} + u_i,\quad i=1,\ldots,n,}
+and the \emph{auxiliary} regressions obtained by regressing each predictor \eqn{X_j}
+on the remaining predictors \eqn{X_{-j}}. Let \eqn{R_g^2} be the global coefficient of
+determination and \eqn{R_j^2} the coefficient of determination of the \eqn{j}-th auxiliary regression.
 
-
-Consider the regression model
-
-\eqn{
-Y_i	= \beta_0X_{0i} + \beta_1X_{1i} + \cdots+ \beta_pX_{pi} +u_i
+\strong{Diagnostics and achieved significance levels (ASL).}
+\itemize{
+  \item \emph{Klein's rule}: flag multicollinearity if \eqn{R_j^2 > R_g^2}.
+        We estimate the ASL as \eqn{P(R_g^2 < R_j^2)} using the bootstrap distribution.
+  \item \emph{VIF rule}: flag multicollinearity if \code{VIF} exceeds a threshold.
+        Since \eqn{\mathrm{VIF}_j = 1/(1-R_j^2)}, this is equivalent to testing \eqn{R_j^2}
+        against \code{valor_vif}. We estimate \eqn{P(R_j^2 >} \code{valor_vif}\eqn{)}.
 }
 
-where \eqn{i = 1,...,n}, \eqn{X_{j,i}} are the predictors with \eqn{j = 1,...,p}, \eqn{X_0 = 1} for all \eqn{i} and \eqn{u_i} is the gaussian error term. 
-
-In order to describe Klein's rule and VIF methods, we need to define \emph{auxiliary regressions} associated to model. An example of an auxiliary regressions is:
-
-\eqn{
-X_{2i} =  \gamma_1X_{1i} + \gamma_3X_{3i} + \cdots+ \gamma_pX_{pi} +u_i.
-}
-
-In general, there are \eqn{p} auxiliary regressions and the dependent variable is omitted in each auxiliary regression. Let \eqn{R_{g}^{2}} be the coefficient of determination of the model and \eqn{R_{j}^{2}} the \eqn{j\text{th}} coefficient of determination of the \eqn{j\text{th}} auxiliary regression.
-
-
+\strong{Bootstrap scheme.}
+The function resamples rows of the model frame (pairs bootstrap) and, for each bootstrap
+sample, computes \eqn{R_g^2} and \eqn{R_j^2} (hence VIF) using the same expanded design
+matrix as the original fit. This makes the procedure robust to transformed terms on either
+side of the formula (e.g., \code{log(y)}, \code{I(X1^2)}, interactions, factors,
+\code{poly()}, etc.).
 }
 
 \value{
-  Returns an object of class \code{MTest}.
-  An object of class \code{MTest} is a list containing
-  at most the following components:
-  \item{pval_vif}{p values for vif test;}
-  \item{pval_klein}{p values for klein test;}
-  \item{Bvals}{A \eqn{nboot \times (p+1)} matrix where rows are the number of bootstap samples and the columns are  \eqn{R_{g_{boot}}^{2}} and \eqn{R_{j_{boot}}^{2}} which are estimates of estimates of \eqn{R_{g}^{2}} and \eqn{R_{j}^{2}}, see Section \bold{Details}}
-  \item{vif.tot}{Observed VIF values;}
-  \item{R.tot}{Observed \eqn{R_{g}^{2}} and \eqn{R_{j}^{2}} values;}
-  \item{nsam}{sample size used in bootstrap procedure.}
-  }
+An object of class \code{MTest}, which is a list containing:
+\item{pval_vif}{Named numeric vector of ASL for the VIF rule,
+\eqn{P(R_j^2 >} \code{valor_vif}\eqn{)}.}
+\item{pval_klein}{Named numeric vector of ASL for Klein's rule,
+\eqn{P(R_g^2 < R_j^2)}.}
+\item{Bvals}{Numeric matrix of size \code{nboot x (p+1)} with columns
+\code{"global"} for \eqn{R_g^2} and one column per predictor for \eqn{R_j^2}.}
+\item{VIFvals}{Numeric matrix \code{nboot x p} with VIF values per predictor (one column per design column).}
+\item{vif.tot}{Observed VIF per predictor from the original design.}
+\item{R.tot}{Named numeric vector with observed \eqn{R_g^2} and all \eqn{R_j^2}.}
+\item{nsam}{Bootstrap sample size actually used.}
+\item{nboot}{Number of bootstrap iterations actually performed.}
+}
 
-\author{Víctor Morales Oñate, \email{victor.morales@uv.cl}, \url{https://sites.google.com/site/moralesonatevictor/},\url{https://www.linkedin.com/in/vmoralesonate/}
-Bolívar Morales Oñate, \email{bmoralesonate@gmail.com}, \url{https://sites.google.com/site/moralesonatevictor/}
+\section{Interpretation}{
+\itemize{
+  \item Larger \code{pval_klein[j]} indicates stronger evidence that predictor \eqn{j}
+  violates Klein's rule (\eqn{R_j^2} often exceeds \eqn{R_g^2}).
+  \item Larger \code{pval_vif[j]} indicates that \eqn{R_j^2} frequently exceeds
+  \code{valor_vif} (equivalently, \code{VIF} exceeds the implied threshold).
+}
+}
+
+\section{Notes}{
+For factor predictors, the underlying design includes multiple columns;
+\code{VIFvals} and VIF-related summaries are returned \emph{per design column}.
+In singular bootstrap samples some statistics may be \code{NA}.
+}
+
+\author{
+Víctor Morales Oñate \email{vmorales.ppb@gmail.com} \cr
+Bolívar Morales Oñate \email{bmoralesonate@gmail.com} \cr
+\url{https://sites.google.com/site/moralesonatevictor/} \cr
+\url{https://www.linkedin.com/in/vmoralesonate/}
 }
 
 \references{
-  Morales-Oñate, V., and Morales-Oñate, B. (2023). \emph{MTest: a Bootstrap Test for Multicollinearity}. Revista Politécnica, 51(2), 53–62. \doi{https://doi.org/10.33333/rp.vol51n2.05}
+Morales-Oñate, V., and Morales-Oñate, B. (2023).
+\emph{MTest: a Bootstrap Test for Multicollinearity}. Revista Politécnica, 51(2), 53--62.
+\doi{10.33333/rp.vol51n2.05}
+}
+
+\seealso{
+\code{\link[car]{vif}} for classical VIF computation.
 }
 
 \examples{
-library(MTest)
-data(simDataMTest)
-m1 <- lm(y~.,data = simDataMTest)
+## Minimal example (small nboot for speed)
+set.seed(1)
+data(simDataMTest, package = "MTest")
+m1 <- stats::lm(y ~ ., data = simDataMTest)
 
-boot.sol <- MTest(m1,trace=FALSE,seed = 1,nboot = 50)
+boot.sol <- MTest(m1, nboot = 50, trace = FALSE, seed = 123, valor_vif = 0.90)
+
 boot.sol$pval_vif
 boot.sol$pval_klein
 head(boot.sol$Bvals)
 print(boot.sol)
 }
-\keyword{Multicollinearity}
+\keyword{regression}
+\keyword{multicollinearity}
+\keyword{bootstrap}
