@@ -27,7 +27,7 @@ $$
 \mathrm{ASL}_{\mathrm{VIF}}(j) = \mathbb{P}\big(R^2_j > c\big)
 $$
      
-Example: `valor_vif = 0.90` implies a VIF cutoff of $1 / (1 - 0.90) = 10$.
+    Example: `valor_vif = 0.90` implies a VIF cutoff of $1 / (1 - 0.90) = 10$.
 
    - **Klein's rule**:
      
@@ -98,8 +98,8 @@ print(out)        # compact console summary (print.MTest)
 
 - `Bvals` — matrix `nboot x (p+1)` with bootstrap $R^2$: first column `"global"` for $R^2_g$, then one column per predictor for $R^2_j$.
 - `VIFvals` — matrix `nboot x p` with bootstrap VIF per predictor.
-- `pval_vif` — named vector with $\Pr(R^2_j > \texttt{valor\_vif})$.
-- `pval_klein` — named vector with $\Pr(R^2_g < R^2_j)$.
+- `pval_vif` — named vector with $\mathbb{P}(R^2_j > \texttt{valor\_vif})$.
+- `pval_klein` — named vector with $\mathbb{P}(R^2_g < R^2_j)$.
 - `vif.tot`, `R.tot` — observed (non-bootstrap) VIF and $R^2$.
 - `nsam`, `nboot` — bootstrap sample size and iterations used.
 
