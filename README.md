@@ -110,7 +110,7 @@ print(out)        # compact console summary (print.MTest)
 ## Interpreting ASL
 
 - **High `pval_klein[j]`** → $R^2_j$ often exceeds $R^2_g$ (Klein's rule frequently triggered).  
-- **High `pval_vif[j]`** → $R^2_j$ often exceeds `valor_vif` (equivalently, $\mathrm{VIF}_j$ exceeds the implied cutoff $1/(1-c)$ ).
+- **High `pval_vif[j]`** → $R^2_j$ often exceeds `valor_vif` (equivalently, $\mathrm{VIF}_j$ exceeds the implied cutoff $1/(1-c)$).
 
 Do not rely on a single rule: inspect both and consider the modeling context.
 
@@ -164,7 +164,7 @@ pairwiseKStest(X,
                exact = NULL)
 ```
 
-- `valor_vif` is a **threshold on $R^2_j$**. The implied VIF cutoff is $1/(1-$`valor_vif`$)$ (e.g., `0.90` ↔ `10`).  
+- `valor_vif` is a **threshold on $R^2_j$**. The implied VIF cutoff is $1/(1-$ `valor_vif` $)$ (e.g., `0.90` ↔ `10`).  
 - `pairwiseKStest()` expects a numeric matrix/data frame; for `Bvals` you typically pass `Bvals[, -1]` to exclude `"global"`.
 
 ---
