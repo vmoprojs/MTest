@@ -4,8 +4,8 @@ Functions to **detect and quantify multicollinearity** via a **nonparametric pai
 
 `MTest` reports achieved significance levels (ASL; bootstrap proportions) for two widely used rules:
 
-- **Klein’s rule**: flag multicollinearity if \(R^2_j > R^2_g\)  
-- **VIF rule**: flag multicollinearity if \(\mathrm{VIF}_j\) is large, with \(\mathrm{VIF}_j = 1 / (1 - R^2_j)\)
+- **Klein's rule**: flag multicollinearity if $R^2_j > R^2_g$  
+- **VIF rule**: flag multicollinearity if $\mathrm{VIF}_j$ is large, with $\mathrm{VIF}_j = \dfrac{1}{1 - R^2_j}$
 
 **Reference:** Morales-Oñate & Morales-Oñate (2023). *MTest: a Bootstrap Test for Multicollinearity*. Revista Politécnica, 51(2), 53–62.  
 DOI: https://doi.org/10.33333/rp.vol51n2.05
@@ -17,10 +17,19 @@ DOI: https://doi.org/10.33333/rp.vol51n2.05
 Given a fitted linear model, `MTest`:
 
 1. Resamples **rows** of the model frame (pairs bootstrap) `nboot` times.  
-2. At each bootstrap replicate, recomputes the **global** \(R^2_g\) and the **auxiliary** \(R^2_j\) (regressing each predictor on the rest), using the **same** expanded design matrix as the original fit. This is robust to `log()`, `I()`, interactions, factors, `poly()`, etc.  
+2. At each bootstrap replicate, recomputes the **global** $R^2_g$ and the **auxiliary** $R^2_j$
+   (regressing each predictor on the rest), using the **same** expanded design matrix as the original fit.
+   This is robust to `log()`, `I()`, interactions, factors, `poly()`, etc.  
 3. Returns bootstrap distributions and **ASL** (bootstrap proportions) for:
-   - **VIF rule (threshold on \(R^2_j\))**: \(\mathrm{ASL}_{\text{VIF}}(j) = \Pr(R^2_j > c)\), where `c = valor_vif`. Example: `valor_vif = 0.90` implies a VIF cutoff of \(1 / (1 - 0.90) = 10\).
-   - **Klein’s rule**: \(\mathrm{ASL}_{\text{Klein}}(j) = \Pr(R^2_g < R^2_j)\).
+   - **VIF rule (threshold on $R^2_j$)**:
+     $$
+     \operatorname{ASL}_{\text{VIF}}(j) = \Pr\big(R^2_j > c\big), \quad c = \texttt{valor\_vif}.
+     $$
+     Example: `valor_vif = 0.90` implies a VIF cutoff of $1 / (1 - 0.90) = 10$.
+   - **Klein's rule**:
+     $$
+     \operatorname{ASL}_{\text{Klein}}(j) = \Pr\big(R^2_g < R^2_j\big).
+     $$
 
 These ASLs are simple **bootstrap proportions** of the corresponding events (no additional parametric assumptions).
 
@@ -29,16 +38,16 @@ These ASLs are simple **bootstrap proportions** of the corresponding events (no 
 ## Model context
 
 Linear regression model:
-\[
+$$
 Y_i = \beta_0 + \beta_1 X_{1i} + \cdots + \beta_p X_{pi} + u_i, \quad i=1,\ldots,n.
-\]
+$$
 
 Auxiliary regressions (one per predictor):
-\[
-X_{ji} = \gamma_0 + \sum_{k \ne j}\gamma_k X_{ki} + e_{ji}, \quad j=1,\ldots,p.
-\]
+$$
+X_{ji} = \gamma_0 + \sum_{k \ne j} \gamma_k X_{ki} + e_{ji}, \quad j=1,\ldots,p.
+$$
 
-Let \(R^2_g\) be the global \(R^2\) and \(R^2_j\) the \(R^2\) of the \(j\)-th auxiliary regression.
+Let $R^2_g$ be the global $R^2$ and $R^2_j$ the $R^2$ of the $j$-th auxiliary regression.
 
 ---
 
@@ -81,11 +90,11 @@ print(out)        # compact console summary (print.MTest)
 
 `MTest()` returns an object of class `"MTest"` with:
 
-- `Bvals` — matrix `nboot x (p+1)` with bootstrap \(R^2\): first column `"global"` for \(R^2_g\), then one column per predictor for \(R^2_j\).
+- `Bvals` — matrix `nboot x (p+1)` with bootstrap $R^2$: first column `"global"` for $R^2_g$, then one column per predictor for $R^2_j$.
 - `VIFvals` — matrix `nboot x p` with bootstrap VIF per predictor.
-- `pval_vif` — named vector with \(\Pr(R^2_j > \texttt{valor\_vif})\).
-- `pval_klein` — named vector with \(\Pr(R^2_g < R^2_j)\).
-- `vif.tot`, `R.tot` — observed (non-bootstrap) VIF and \(R^2\).
+- `pval_vif` — named vector with $\Pr(R^2_j > \texttt{valor\_vif})$.
+- `pval_klein` — named vector with $\Pr(R^2_g < R^2_j)$.
+- `vif.tot`, `R.tot` — observed (non-bootstrap) VIF and $R^2$.
 - `nsam`, `nboot` — bootstrap sample size and iterations used.
 
 > **Note (factors):** VIF is returned **per design column**. If you need group-wise GVIFs (as in `car::vif`), compute them separately.
@@ -94,8 +103,8 @@ print(out)        # compact console summary (print.MTest)
 
 ## Interpreting ASL
 
-- **High `pval_klein[j]`** → \(R^2_j\) often exceeds \(R^2_g\) (Klein’s rule frequently triggered).  
-- **High `pval_vif[j]`** → \(R^2_j\) often exceeds `valor_vif` (equivalently, \(\mathrm{VIF}_j\) exceeds the implied cutoff \(1 / (1 - c)\)).
+- **High `pval_klein[j]`** → $R^2_j$ often exceeds $R^2_g$ (Klein's rule frequently triggered).  
+- **High `pval_vif[j]`** → $R^2_j$ often exceeds `valor_vif` (equivalently, $\mathrm{VIF}_j$ exceeds the implied cutoff $1 / (1 - c)$).
 
 Do not rely on a single rule: inspect both and consider the modeling context.
 
@@ -103,7 +112,7 @@ Do not rely on a single rule: inspect both and consider the modeling context.
 
 ## Pairwise KS helper
 
-`pairwiseKStest()` runs pairwise Kolmogorov–Smirnov tests on matrix columns (e.g., the \(R^2_j\) columns of `Bvals`), returning a **p-value matrix** and a simple **Suggestion** ranking that mirrors the original behavior.
+`pairwiseKStest()` runs pairwise Kolmogorov–Smirnov tests on matrix columns (e.g., the $R^2_j$ columns of `Bvals`), returning a **p-value matrix** and a simple **Suggestion** ranking that mirrors the original behavior.
 
 ```r
 # Compare only predictors, exclude "global":
@@ -149,7 +158,7 @@ pairwiseKStest(X,
                exact = NULL)
 ```
 
-- `valor_vif` is a **threshold on \(R^2_j\)**. The implied VIF cutoff is \(1 / (1 - \texttt{valor\_vif})\) (e.g., `0.90` ↔ `10`).  
+- `valor_vif` is a **threshold on $R^2_j$**. The implied VIF cutoff is $1 / (1 - \texttt{valor\_vif})$ (e.g., `0.90` ↔ `10`).  
 - `pairwiseKStest()` expects a numeric matrix/data frame; for `Bvals` you typically pass `Bvals[, -1]` to exclude `"global"`.
 
 ---
@@ -160,6 +169,11 @@ pairwiseKStest(X,
 > *MTest: a Bootstrap Test for Multicollinearity*. Revista Politécnica, 51(2), 53–62.  
 > https://doi.org/10.33333/rp.vol51n2.05
 
+---
+
+## License
+
+MIT (or your package license). Include the corresponding `LICENSE` file in the repo.
 
 ---
 
